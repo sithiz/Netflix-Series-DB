@@ -1,0 +1,6 @@
+CREATE TABLE Shows(
+	ID SERIAL UNIQUE,
+	Show_title VARCHAR (255) NOT NULL,
+	Series_length INT NOT NULL,
+	PRIMARY KEY (ID)
+	)

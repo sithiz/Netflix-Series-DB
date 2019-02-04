@@ -1,0 +1,24 @@
+{
+  "name": "netflix-series-db",
+  "version": "1.0.0",
+  "description": "The Netflix Series Database will have some series from 2018 and forward, and include a Shows-list table, show/cast, and actors table. Shows will have series legnth, year, and month it came out. Show/cast table will have list of main actors from each show and point to its respective show on the show table as well as actors on actors table. Actors will have list of most actors in netflix series and have some basic info about them.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sithiz/Netflix-Series-DB.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sithiz/Netflix-Series-DB/issues"
+  },
+  "homepage": "https://github.com/sithiz/Netflix-Series-DB#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "nodemon": "^1.18.9",
+    "pg": "^7.8.0"
+  }
+}
