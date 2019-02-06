@@ -40,21 +40,51 @@ router.get('/All', (request, response) => {
     })
 })
 
-router.post('/NewSeries',(request,response)=>{
-		let id = (request.body['ID']*Math.random())*10000003
-		let show_title = request.body['show_title']
-		let series_length = request.body['series_length']
-		let bio = request.body['bio']
-		client.query(`INSERT INTO shows VALUES (${id}, ${show_title},${series_length},${bio})`) 
-		client.query('SELECT * FROM shows').then((result)=>{
-			response.send(result.rows)
-		})
+router.post('/NewSeries', (request, response) => {
+    let id = (request.body['ID'] * Math.random()) * 10000003
+    let show_title = request.body['show_title']
+    let series_length = request.body['series_length']
+    let bio = request.body['bio']
+    client.query(`INSERT INTO shows VALUES (${id}, ${show_title},${series_length},${bio})`)
+    client.query('SELECT * FROM shows').then((result) => {
+        response.send(result.rows)
+    })
+})
+
+router.post('/NewActors', (request, response) => {
+    let id = (request.body['ID'] * Math.random()) * 10000003
+    let actorName = request.body['Actors_name']
+    client.query(`INSERT INTO Actors VALUES (${id}, ${actorName})`)
+    client.query('SELECT * FROM Actors')
+    .then((result) => {
+        response.send(result.rows)
+    }).catch((error)=>{
+    	console.log(error)
+    })
+})
+
+router.put('/Shows/:id',(request,response)=>{	
+	let id = request.params.id
+	client.query(`UPDATE Shows SET Show_title='NewStuff', Series_Length=12 WHERE ID = ${id}`)
+	client.query(`SELECT * FROM shows WHERE ID = ${id}`)
+	.then((result)=>{
+		response.send(result.rows)
 	})
-
-		
-
-
-router.post('/')
+	.catch((error)=>{
+		console.log(error)
+	})
+})
+router.put('/Actors/:id',(request,response)=>{	
+	let id = request.params.id
+	client.query(`UPDATE Shows SET Show_title='NewStuff', Series_Length=12 WHERE ID = ${id}`)
+	client.query(`SELECT * FROM shows WHERE ID = ${id}`)
+	.then((result)=>{
+		response.send(result.rows)
+	})
+	.catch((error)=>{
+		console.log(error)
+	})
+})
 
 router.delete('/')
 
