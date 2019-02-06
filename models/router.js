@@ -72,10 +72,9 @@ router.post('/NewSeries', (request, response) => {
         bio:request.body.bio
     }
     console.log(data)
-
     client.query(`INSERT INTO shows VALUES (${id}, $1,$2,$3)`,
         [data.show_title,data.series_length,data.bio])
-    client.query('SELECT * FROM shows')
+    client.query(`SELECT * FROM shows WHERE id = ${id}`)
         .then((result) => {
             response.send(result.rows)
         })
@@ -86,8 +85,12 @@ router.post('/NewSeries', (request, response) => {
 
 router.post('/NewActors', (request, response) => {
     let id = (request.body['ID'] * Math.random()) * 10000003
-    let actorName = request.body['Actors_name']
-    client.query(`INSERT INTO Actors VALUES (${id}, ${actorName})`)
+    let data = {
+        actorName:request.body.Actors_name
+    }
+    console.log(request.body)
+    client.query(`INSERT INTO Actors VALUES (${id}, ($1))`,
+        [data.actorName])
     client.query('SELECT * FROM Actors')
         .then((result) => {
             response.send(result.rows)
@@ -100,7 +103,13 @@ router.post('/NewActors', (request, response) => {
 
 router.put('/Shows/:id', (request, response) => {
     let id = request.params.id
-    client.query(`UPDATE Shows SET Show_title='NewStuff', Series_Length=12 WHERE ID = ${id}`)
+    let data = {
+        show_title:request.body.show_title,
+        series_length: request.body.series_length,
+        bio:request.body.bio
+    }
+    client.query(`UPDATE Shows SET show_title=($1), series_Length=($2), bio=($3) WHERE ID = ${id}`,
+        [data.show_title,data.series_length,data.bio])
     client.query(`SELECT * FROM shows WHERE ID = ${id}`)
         .then((result) => {
             response.send(result.rows)
