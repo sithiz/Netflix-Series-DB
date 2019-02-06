@@ -35,8 +35,9 @@ router.get('/Actors/:id', (request, response) => {
     })
 })
 router.get('/All', (request, response) => {
-    client.query('SELECT * FROM shows_actors', (error, results) => {
-        response.send(results.rows)
+    client.query('SELECT * FROM shows_actors')
+        .then((result)=>{
+            response.send(result.rows)
     })
 })
 
@@ -46,7 +47,8 @@ router.post('/NewSeries', (request, response) => {
     let series_length = request.body['series_length']
     let bio = request.body['bio']
     client.query(`INSERT INTO shows VALUES (${id}, ${show_title},${series_length},${bio})`)
-    client.query('SELECT * FROM shows').then((result) => {
+    client.query('SELECT * FROM shows')
+    .then((result) => {
         response.send(result.rows)
     })
 })
@@ -58,9 +60,8 @@ router.post('/NewActors', (request, response) => {
     client.query('SELECT * FROM Actors')
     .then((result) => {
         response.send(result.rows)
-    }).catch((error)=>{
-    	console.log(error)
     })
+
 })
 
 router.put('/Shows/:id',(request,response)=>{	
@@ -70,9 +71,7 @@ router.put('/Shows/:id',(request,response)=>{
 	.then((result)=>{
 		response.send(result.rows)
 	})
-	.catch((error)=>{
-		console.log(error)
-	})
+
 })
 router.put('/Actors/:id',(request,response)=>{	
 	let id = request.params.id
@@ -81,12 +80,17 @@ router.put('/Actors/:id',(request,response)=>{
 	.then((result)=>{
 		response.send(result.rows)
 	})
-	.catch((error)=>{
-		console.log(error)
-	})
+
 })
 
-router.delete('/')
+router.delete('/Actors/:id',(request,response)=>{
+	let id = request.params.id
+	client.query(`DELETE FROM Actors WHERE ID=${id}`)
+	client.query(`SELECT * FROM Actors`)
+	.then((result)=>{
+		response.send(result.rows)
+	})
+})
 
 
 module.exports = router
