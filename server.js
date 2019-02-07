@@ -4,8 +4,13 @@ const PORT = 9000
 const netflixRouter = require('./models/router.js')
 const bodyParser= require('body-parser')
 const morgan = require('morgan')
+const fs = require('fs')
+const path = require('path')
 
-app.use(morgan('dev'))
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+
+
+app.use(morgan('combined', { stream: accessLogStream }))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
